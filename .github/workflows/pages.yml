@@ -42,6 +42,10 @@ jobs:
           arch: wasm_singlethread
           cache: true
 
+      # The Qt WASM packages can lose executable bits when extracted by aqt.
+      - name: Make Qt WASM tools executable
+        run: find "$QT_ROOT_DIR/bin" -type f -exec chmod +x {} +
+
       - name: Configure
         run: qt-cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release
 
@@ -73,4 +77,3 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
-
